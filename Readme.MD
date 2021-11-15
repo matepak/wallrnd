@@ -1,1 +1,1 @@
-## Comannd Line utility for setting up wallpaper
+## Command Line utility for setting up wallpaper
