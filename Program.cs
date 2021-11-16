@@ -51,8 +51,20 @@ namespace randw
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-            .WithParsed(Run)
+            .WithParsed<Options>(o =>
+            {
+                if(o.Random) 
+                {
+                    SetRandomWallpaper(o);
+                }
+                else 
+                {
+                    SetWallpaper(o);
+                }
+
+            })
             .WithNotParsed(HandleParsedError);
+            
         }
 
         private static void HandleParsedError(IEnumerable<Error> obj)
@@ -60,10 +72,15 @@ namespace randw
             throw new NotImplementedException();
         }
 
-        private static void Run(Options opt)
+        private static void SetRandomWallpaper(Options opt)
         {
             var path = ListFiles.GetRandom(opt.Path);
             WallPaper.SetWallpaper(path);
+        }
+
+        private static void SetWallpaper(Options opt) 
+        {
+            WallPaper.SetWallpaper(opt.Path);
         }
     }
 }

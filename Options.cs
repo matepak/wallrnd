@@ -8,5 +8,7 @@ namespace randw
 
         [Option('r', "recursive", Required = false, HelpText = "Access subfolders")]
         public bool Recursive { get; set; }
+        [Option(Default = false, HelpText = "Set random wallpaper from given path")]
+        public bool Random { get; set; }
     }
 }
