@@ -25,7 +25,7 @@ namespace randw
     sealed class ListFiles
     {
         private ListFiles() { }
-        public static string RandFiles(string path)
+        public static string GetRandom(string path)
         {
             var rand = new Random();
             List<string> fileList = new List<string>();
@@ -62,7 +62,7 @@ namespace randw
 
         private static void Run(Options opt)
         {
-            var path = ListFiles.RandFiles(opt.Path);
+            var path = ListFiles.GetRandom(opt.Path);
             WallPaper.SetWallpaper(path);
         }
     }
