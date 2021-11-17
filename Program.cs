@@ -53,7 +53,14 @@ namespace randw
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
-                if(o.Random) 
+                if (o.Center) WallpaperStyle.Center();
+                if (o.Tile) WallpaperStyle.Tile();
+                if (o.Stretch) WallpaperStyle.Stretch();
+                if (o.Fit) WallpaperStyle.Fit();
+                if (o.Fill) WallpaperStyle.Fill();
+                if (o.Span) WallpaperStyle.Span();
+                
+                if (o.Random) 
                 {
                     SetRandomWallpaper(o);
                 }
