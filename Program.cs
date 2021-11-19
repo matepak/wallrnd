@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using CommandLine;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace randw
 {
@@ -31,7 +33,8 @@ namespace randw
             List<string> fileList = new List<string>();
             try
             {
-                var files = Directory.EnumerateFiles(path);
+                Regex reg = new Regex(@"\b[\w\-]+\.jpg\b");
+                var files = Directory.EnumerateFiles(path).Where(path => reg.IsMatch(path));
                 foreach (var f in files)
                 {
                     fileList.Add(f.ToString());
