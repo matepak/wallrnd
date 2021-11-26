@@ -54,10 +54,16 @@ namespace randw
     {
         static void Main(string[] args)
         {
+               if (!OperatingSystem.IsWindows()) {
+               Console.WriteLine("wallrnd currently works only in Windows");
+               return;
+               }
+
+
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
-                if (o.Center) WallpaperStyle.Center();
+                if (o.Center) {WallpaperStyle.Center();}
                 if (o.Tile) WallpaperStyle.Tile();
                 if (o.Stretch) WallpaperStyle.Stretch();
                 if (o.Fit) WallpaperStyle.Fit();
