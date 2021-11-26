@@ -26,6 +26,7 @@ namespace randw
 
     sealed class ListFiles
     {
+        static string regexPattern = @"\b[\w\-]+\.(jpe?g|bmp|dib|png|jfif|jpe|gif|tif?f|wdp|heics|heifs|hif|avcs|avifs?)\b";
         private ListFiles() { }
         public static string GetRandom(string path)
         {
@@ -33,7 +34,7 @@ namespace randw
             List<string> fileList = new List<string>();
             try
             {
-                Regex reg = new Regex(@"\b[\w\-]+\.(jpe?g|bmp|dib|png|jfif|jpe|gif|tif?f|wdp|heics|heifs|hif|avcs|avifs?)\b");
+                Regex reg = new Regex(regexPattern);
                 var files = Directory.EnumerateFiles(path).Where(path => reg.IsMatch(path));
                 foreach (var f in files)
                 {
