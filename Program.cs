@@ -28,23 +28,42 @@ namespace randw
     {
         static string regexPattern = @"\b[\w\-]+\.(jpe?g|bmp|dib|png|jfif|jpe|gif|tif?f|wdp|heics|heifs|hif|avcs|avifs?)\b";
         private ListFiles() { }
-        public static string GetRandom(string path)
+        public static List<string> FileList(string path, bool recursive)
+        {
+            Regex reg = new Regex(regexPattern);
+            if (recursive)
+            {
+                var query = from file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories)
+                            where reg.IsMatch(file)
+                            select file;
+                return query.ToList();
+            }
+            else
+            {
+                var query = from file in Directory.EnumerateFiles(path, "*")
+                            where reg.IsMatch(file)
+                            select file;
+                return query.ToList();
+            }
+        }
+        public static string GetRandom(string path, bool recursive)
         {
             var rand = new Random();
             List<string> fileList = new List<string>();
             try
             {
-                Regex reg = new Regex(regexPattern);
-                var files = Directory.EnumerateFiles(path).Where(path => reg.IsMatch(path));
-                foreach (var f in files)
-                {
-                    fileList.Add(f.ToString());
-                }
+                fileList = FileList(path, recursive);
                 return fileList[rand.Next(fileList.Count)];
+            }
+            catch (ArgumentOutOfRangeException e) 
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Folder doesn't conatain any image files, use -r parameter for recursive");
+                return null;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.ToString());
                 return null;
             }
         }
@@ -91,7 +110,7 @@ namespace randw
 
         private static void SetRandomWallpaper(Options opt)
         {
-            var path = ListFiles.GetRandom(opt.Path);
+            var path = ListFiles.GetRandom(opt.Path, opt.Recursive);
             WallPaper.SetWallpaper(path);
         }
 
