@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using CommandLine;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Runtime.Versioning;
 
 namespace randw
 {
@@ -55,7 +56,7 @@ namespace randw
                 fileList = FileList(path, recursive);
                 return fileList[rand.Next(fileList.Count)];
             }
-            catch (ArgumentOutOfRangeException e) 
+            catch (ArgumentOutOfRangeException e)
             {
                 Console.Error.WriteLine(e.Message);
                 Console.WriteLine("Folder doesn't conatain any image files, use -r parameter for recursive");
@@ -71,34 +72,29 @@ namespace randw
 
     class Program
     {
+        [SupportedOSPlatform("Windows")]
         static void Main(string[] args)
         {
-               if (!OperatingSystem.IsWindows()) {
-               Console.WriteLine("wallrnd currently works only in Windows");
-               return;
-               }
-
-
-            Parser.Default.ParseArguments<Options>(args)
-            .WithParsed<Options>(o =>
-            {
-                if (o.Center) {WallpaperStyle.Center();}
-                if (o.Tile) WallpaperStyle.Tile();
-                if (o.Stretch) WallpaperStyle.Stretch();
-                if (o.Fit) WallpaperStyle.Fit();
-                if (o.Fill) WallpaperStyle.Fill();
-                if (o.Span) WallpaperStyle.Span();
-                
-                if (o.Random) 
+                Parser.Default.ParseArguments<Options>(args)
+                .WithParsed<Options>(o =>
                 {
-                    SetRandomWallpaper(o);
-                }
-                else 
-                {
-                    SetWallpaper(o);
-                }
+                    if (o.Center) { WallpaperStyle.Center(); }
+                    if (o.Tile) WallpaperStyle.Tile();
+                    if (o.Stretch) WallpaperStyle.Stretch();
+                    if (o.Fit) WallpaperStyle.Fit();
+                    if (o.Fill) WallpaperStyle.Fill();
+                    if (o.Span) WallpaperStyle.Span();
 
-            });
+                    if (o.Random)
+                    {
+                        SetRandomWallpaper(o);
+                    }
+                    else
+                    {
+                        SetWallpaper(o);
+                    }
+
+                });
         }
 
         private static void SetRandomWallpaper(Options opt)
@@ -107,7 +103,7 @@ namespace randw
             WallPaper.SetWallpaper(path);
         }
 
-        private static void SetWallpaper(Options opt) 
+        private static void SetWallpaper(Options opt)
         {
             WallPaper.SetWallpaper(opt.Path);
         }
