@@ -57,7 +57,7 @@ namespace randw
             }
             catch (ArgumentOutOfRangeException e) 
             {
-                Console.WriteLine(e.Message);
+                Console.Error.WriteLine(e.Message);
                 Console.WriteLine("Folder doesn't conatain any image files, use -r parameter for recursive");
                 return null;
             }
@@ -98,14 +98,7 @@ namespace randw
                     SetWallpaper(o);
                 }
 
-            })
-            .WithNotParsed(HandleParsedError);
-            
-        }
-
-        private static void HandleParsedError(IEnumerable<Error> obj)
-        {
-            throw new NotImplementedException();
+            });
         }
 
         private static void SetRandomWallpaper(Options opt)
