@@ -27,7 +27,7 @@ namespace randw
 
     sealed class ListFiles
     {
-        static string regexPattern = @"\b[\w\-]+\.(jpe?g|bmp|dib|png|jfif|jpe|gif|tif?f|wdp|heics|heifs|hif|avcs|avifs?)\b";
+        public static string regexPattern = @"\b[\w\-]+\.(jpe?g|bmp|dib|png|jfif|jpe|gif|tif?f|wdp|heics|heifs|hif|avcs|avifs?)\b";
         private ListFiles() { }
         public static List<string> FileList(string path, bool recursive)
         {
@@ -56,16 +56,15 @@ namespace randw
                 fileList = FileList(path, recursive);
                 return fileList[rand.Next(fileList.Count)];
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException)
             {
-                Console.Error.WriteLine(e.Message);
                 Console.WriteLine("Folder doesn't conatain any image files, use -r parameter for recursive");
-                return null;
+                return "";
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return null;
+                return "";
             }
         }
     }
@@ -91,7 +90,7 @@ namespace randw
                     }
                     else
                     {
-                        SetWallpaper(o);
+                        SetWallpaper(o.Path);
                     }
 
                 });
@@ -100,12 +99,14 @@ namespace randw
         private static void SetRandomWallpaper(Options opt)
         {
             var path = ListFiles.GetRandom(opt.Path, opt.Recursive);
-            WallPaper.SetWallpaper(path);
+            SetWallpaper(path);
         }
 
-        private static void SetWallpaper(Options opt)
+        private static void SetWallpaper(string path)
         {
-            WallPaper.SetWallpaper(opt.Path);
+            Regex reg = new Regex(ListFiles.regexPattern);
+            if (!reg.IsMatch(path)) return;
+            WallPaper.SetWallpaper(path);
         }
     }
 }
