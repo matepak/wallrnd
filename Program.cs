@@ -1,6 +1,8 @@
 ﻿using CommandLine;
 using System.Text.RegularExpressions;
 using System.Runtime.Versioning;
+using System.Runtime.InteropServices;
+using static System.Console;
 
 namespace randw
 {
@@ -9,6 +11,11 @@ namespace randw
         [SupportedOSPlatform("Windows")]
         static void Main(string[] args)
         {
+            if(!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                WriteLine("OS is not supported");
+                return;
+            }
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
