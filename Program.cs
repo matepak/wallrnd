@@ -16,6 +16,7 @@ namespace randw
                 WriteLine("OS is not supported");
                 return;
             }
+            
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
