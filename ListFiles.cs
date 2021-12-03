@@ -39,7 +39,7 @@ namespace randw
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("Folder doesn't conatain any image files, use -r parameter for recursive");
+                Console.WriteLine("Folder doesn't conatain any image files, use --recursive parameter for recursive");
                 return "";
             }
             catch (Exception e)
