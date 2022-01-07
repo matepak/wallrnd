@@ -17,6 +17,7 @@ namespace randw
                 return;
             }
             
+            WallpaperStyle.Center();
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>
             {
